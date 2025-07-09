@@ -1296,10 +1296,10 @@
         "Y": 0,
         "L": 0,
         "R": 0,
-        "Up": 4097,
-        "Down": 4098,
-        "Left": 4099,
-        "Right": 4100,
+        "Up": 24,
+        "Down": 26,
+        "Left": 23,
+        "Right": 25,
         "Start": 4101,
         "Select": 4102,
         "U": 0,
@@ -9765,7 +9765,15 @@
     "Items": [
       {
         "RomFile": {
-          "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/sprites.nes",
+          "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/game.nes",
+          "InnerFile": "",
+          "InnerFileIndex": 0
+        },
+        "PatchFile": null
+      },
+      {
+        "RomFile": {
+          "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/controller.nes",
           "InnerFile": "",
           "InnerFileIndex": 0
         },
@@ -9774,6 +9782,14 @@
       {
         "RomFile": {
           "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/background.nes",
+          "InnerFile": "",
+          "InnerFileIndex": 0
+        },
+        "PatchFile": null
+      },
+      {
+        "RomFile": {
+          "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/sprites.nes",
           "InnerFile": "",
           "InnerFileIndex": 0
         },
