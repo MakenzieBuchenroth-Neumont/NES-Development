@@ -1,5 +1,5 @@
 ﻿{
-  "Version": "2.1.0",
+  "Version": "2.1.1",
   "ConfigUpgrade": 5,
   "Video": {
     "CustomAspectRatio": 1,
@@ -8669,8 +8669,8 @@
         "Height": 550
       },
       "WindowLocation": {
-        "X": 1160,
-        "Y": 265
+        "X": 274,
+        "Y": 428
       },
       "WindowIsMaximized": false
     },
@@ -9871,8 +9871,8 @@
       "Height": 505
     },
     "WindowLocation": {
-      "X": 1219,
-      "Y": 497
+      "X": 1202,
+      "Y": 488
     },
     "WindowIsMaximized": false
   },
