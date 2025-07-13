@@ -96,7 +96,7 @@ oam: .res 256	; sprite OAM data
 
 ; Non-Maskable Interrupt Handler - called during VBlank
 .proc nmi_handler
-
+  JSR update_hud
   RTI                     ; Return from interrupt (not using NMI yet)
 .endproc
 
@@ -175,12 +175,6 @@ remaining_loop:
 
  	; draw some text on the screen
 
- 	LDA PPU_STATUS ; reset address latch
- 	LDA #$20 ; set PPU address to $208A (Row = 4, Column = 10)
- 	STA PPU_ADDRESS
- 	LDA #$8A
- 	STA PPU_ADDRESS
-
   ; print text
 
   ; Reset scroll registers to 0,0 (needed after VRAM access)
@@ -223,6 +217,17 @@ remaining_loop:
   STA ball_dy
 
   RTS
+.endproc
+
+.proc init_game_variables
+    LDA #0
+    STA score
+    STA time
+
+    LDA #120
+    STA seconds
+
+    RTS
 .endproc
 
 ;******************************************************************************
@@ -393,6 +398,24 @@ forever:
     ; Update sprite data (DMA transfer to PPU OAM)
     JSR update_sprites
 
+    LDA time
+    CLC
+    ADC #1
+    STA time
+    CMP #60
+    BNE skip_second
+
+    LDA #0
+    STA time
+
+    LDA seconds
+    BEQ skip_second        ; Don't decrement if already 0
+    SEC
+    SBC #1
+    STA seconds
+
+    skip_second:
+
     ; Infinite loop — keep running frame logic
     JMP forever
 
@@ -452,6 +475,97 @@ read_loop:
 
 .endproc
 
+.proc byte_to_ascii
+; Input: A = byte value (0–99)
+; Output:
+;   temp_var  = ASCII tens digit
+;   temp_var2 = ASCII ones digit
+
+    LDX #0
+
+@loop:
+    CMP #10
+    BCC @done
+    SEC
+    SBC #10
+    INX
+    JMP @loop
+
+@done:
+    TXA
+    CLC
+    ADC #$30      ; Convert tens digit to ASCII
+    STA temp_var
+
+    CLC
+    ADC #$30      ; Convert ones digit to ASCII
+    STA temp_var2
+
+    RTS
+.endproc
+
+.proc update_hud
+    ;=====================
+    ; Convert score to ASCII
+    ;=====================
+    LDA score
+    JSR byte_to_ascii
+
+    ;=====================
+    ; Write \"SCORE:\" at row 1, col 22 ($2036)
+    ;=====================
+    LDA PPU_STATUS         ; reset latch
+    LDA #$20               ; high byte of $2036
+    STA PPU_ADDRESS
+    LDA #$36               ; col 22 = $16 + $20 = $36
+    STA PPU_ADDRESS
+
+    ; \"SCORE:\"
+    LDX #0
+@score_text:
+    LDA score_label, X
+    BEQ @score_done
+    STA PPU_VRAM_IO
+    INX
+    JMP @score_text
+@score_done:
+    LDA temp_var        ; tens digit
+    STA PPU_VRAM_IO
+    LDA temp_var2       ; ones digit
+    STA PPU_VRAM_IO
+
+    ;=====================
+    ; Convert seconds to ASCII
+    ;=====================
+    LDA seconds
+    JSR byte_to_ascii
+
+    ;=====================
+    ; Write \"TIME:\" at row 1, col 2 ($2022)
+    ;=====================
+    LDA PPU_STATUS         ; reset latch
+    LDA #$20               ; high byte of $2022
+    STA PPU_ADDRESS
+    LDA #$22               ; low byte = row 1 + col 2 = $20 + $02 = $22
+    STA PPU_ADDRESS
+
+    ; \"TIME:\"
+    LDX #0
+@time_text:
+    LDA time_label, X
+    BEQ @time_done
+    STA PPU_VRAM_IO
+    INX
+    JMP @time_text
+@time_done:
+    LDA temp_var
+    STA PPU_VRAM_IO
+    LDA temp_var2
+    STA PPU_VRAM_IO
+
+    RTS
+.endproc
+
 ; -----------------------------------------------------
 ; 8-bit Pseudo-Random Number Generator using LFSR-like bit mixing
 ; - Uses 'random_num' to hold and update the current pseudo-random value
@@ -495,6 +609,12 @@ nametable_data:
 hello_txt:
 .byte 'H','E','L','L', 'O', 0
 
+score_label:
+.byte 'S','C','O','R','E',':',' ',0
+
+time_label:
+.byte 'T','I','M','E',':',' ',0
+
 ; Startup segment
 .segment "STARTUP"
 
@@ -537,6 +657,7 @@ hello_txt:
   JSR set_palette         ; Set palette colors
   JSR set_nametable       ; Set nametable tiles
   JSR init_sprites        ; Initialize sprites
+  JSR init_game_variables ; Initialize score, time, seconds
 
   JMP main                ; Jump to main program
 .endproc
