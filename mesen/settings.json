@@ -1330,22 +1330,22 @@
         "MouseButtons": null,
         "OekakidsButtons": null,
         "BandaiHypershotButtons": null,
-        "A": 54,
-        "B": 53,
+        "A": 0,
+        "B": 0,
         "X": 0,
         "Y": 0,
         "L": 0,
         "R": 0,
-        "Up": 66,
-        "Down": 62,
-        "Left": 44,
-        "Right": 47,
-        "Start": 52,
-        "Select": 64,
+        "Up": 0,
+        "Down": 0,
+        "Left": 0,
+        "Right": 0,
+        "Start": 0,
+        "Select": 0,
         "U": 0,
         "D": 0,
-        "TurboA": 140,
-        "TurboB": 56,
+        "TurboA": 0,
+        "TurboB": 0,
         "TurboX": 0,
         "TurboY": 0,
         "TurboL": 0,
@@ -1460,10 +1460,10 @@
         "Y": 0,
         "L": 0,
         "R": 0,
-        "Up": 0,
-        "Down": 0,
-        "Left": 0,
-        "Right": 0,
+        "Up": 66,
+        "Down": 62,
+        "Left": 44,
+        "Right": 47,
         "Start": 0,
         "Select": 0,
         "U": 0,
@@ -1599,7 +1599,7 @@
         "GenericKey1": 0
       },
       "TurboSpeed": 0,
-      "Type": "None"
+      "Type": "NesController"
     },
     "ExpPort": {
       "Mapping1": {
@@ -9763,6 +9763,14 @@
   },
   "RecentFiles": {
     "Items": [
+      {
+        "RomFile": {
+          "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/pong.nes",
+          "InnerFile": "",
+          "InnerFileIndex": 0
+        },
+        "PatchFile": null
+      },
       {
         "RomFile": {
           "Path": "C:\\Neumont\\Year_3\\Quarter_4\\PRO385_Game_Engine_Projects\\nes-dev\\projects\\src/game.nes",
